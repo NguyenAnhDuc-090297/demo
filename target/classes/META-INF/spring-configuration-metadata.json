@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "app.api",
+      "type": "com.demo.configuration.Configuration",
+      "sourceType": "com.demo.configuration.Configuration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.api.login",
+      "type": "java.lang.String",
+      "sourceType": "com.demo.configuration.Configuration"
+    }
+  ],
+  "hints": []
+}
