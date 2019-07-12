@@ -45,16 +45,12 @@ public class API {
             data.put("unixTimestamp", unixTimeStamp);
             data.put("hmac", hmac);
 
-            HttpClientHelper.getInstance().sendTo(API_LOGIN,)
+            JSONObject result = HttpClientHelper.getInstance().sendTo(API_LOGIN, HttpClientHelper.METHODS.POST, data);
 
             System.out.println(result);
 
             return null;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new JSONObject();
