@@ -8,16 +8,29 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>Home!</title>
 </head>
 <body>
 
-<<<<<<< HEAD
-<img src="../static/images/secureMetric.jpg" width="1000" th:src="@{images/secureMetric.jpg}"/>
-=======
->>>>>>> origin/master
-<h1 th:text="${serverTime}"></h1>
-<img th:src="@{/images/securemetric.jpeg}" alt="" width="72" height="72">
+<!--<h1 th:text="${serverTime}"></h1>-->
+<img th:src="@{/images/securemetric.jpeg}" alt="" width="172" height="172">
 <div class=container>
     <form class="form-signin">
         <label for="inputEmail" class="sr-only">User name</label>
