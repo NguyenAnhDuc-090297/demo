@@ -45,23 +45,7 @@ public class API {
             data.put("unixTimestamp", unixTimeStamp);
             data.put("hmac", hmac);
 
-            StringEntity entity = new StringEntity(data.toJSONString());
-            post.setEntity(entity);
-            post.setHeader("Accept", "application/json");
-            post.setHeader("Content-type", "application/json");
-
-            HttpResponse response = client.execute(post);
-            System.out.println("Response Code : "
-                    + response.getStatusLine().getStatusCode());
-
-            BufferedReader rd = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent()));
-
-            StringBuffer result = new StringBuffer();
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
+            HttpClientHelper.getInstance().sendTo(API_LOGIN,)
 
             System.out.println(result);
 
