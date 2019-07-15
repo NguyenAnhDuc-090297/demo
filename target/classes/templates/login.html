@@ -29,7 +29,6 @@
 </head>
 <body>
 
-<<<<<<< HEAD
 
 <div class="container">
     <div class="row">
@@ -58,20 +57,6 @@
     </div>
 
 </div>
-=======
-<!--<h1 th:text="${serverTime}"></h1>-->
-    <form class="form-signin" action="" th:action="@{/login}" th:object="${loginModel}" method="post">
-        <img class="imgSM" th:src="@{/images/securemetric.jpeg}" alt="" width="172" height="172">
-        <p></p>
-        <label for="username" class="sr-only">User name</label>
-        <input type="text" th:field="*{username}"  id="username" class="form-control" placeholder="User name" required autofocus>
-        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-        <label for="password" class="sr-only">Password</label>
-        <input type="password" th:field="*{password}" id="password" class="form-control" placeholder="Password" required>
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
->>>>>>> e7da5df933912386e73ad6ad4b497210020fc9cd
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script th:src="@{/js/jquery-3.4.1.min.js}"></script>

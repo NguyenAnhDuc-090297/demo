@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -31,18 +32,20 @@ public class HomeController {
     private String SECRET_KEY;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    private ModelAndView home(Locale locale, Model model) {
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-        String formattedDate = dateFormat.format(date);
-        ModelAndView mav = new ModelAndView("login");
-        mav.addObject("serverTime", formattedDate);
-        mav.addObject("loginModel", new LoginModel());
+    private ModelAndView home(HttpSession session) {
+        ModelAndView mav = null;
+        AuthModel authModel = (AuthModel) session.getAttribute("auth");
+        if (authModel.getAuthToken().isEmpty()) {
+            mav = new ModelAndView("login");
+            mav.addObject("loginModel", new LoginModel());
+        } else {
+            mav = new ModelAndView("home");
+        }
         return mav;
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
-    private ModelAndView login(@ModelAttribute LoginModel loginModel) {
+    private ModelAndView login(@ModelAttribute LoginModel loginModel, HttpSession session) {
         ModelAndView mav = null;
         try {
             String password = loginModel.getPassword();
@@ -73,8 +76,9 @@ public class HomeController {
             if (result != null && !result.has("code")) {
                 ObjectMapper mapper = new ObjectMapper();
                 AuthModel authModel = mapper.readValue(result.toString(), AuthModel.class);
-                System.out.println(authModel.getAppId());
+                session.setAttribute("auth", authModel);
                 mav = new ModelAndView("home");
+                mav.addObject("authModel", authModel);
                 return mav;
             } else {
                 mav = new ModelAndView("login");

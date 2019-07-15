@@ -1,10 +1,11 @@
 package com.demo.model;
 
-public class AuthModel {
+public class OTPAuthModel {
 
     private String appId;
     private int passwordExpired;
     private String authToken;
+    private String adaptiveScore;
     private String companyName;
     private int sessionTimeout;
     private String groupId;
@@ -20,32 +21,7 @@ public class AuthModel {
     private int role;
     private String companyId;
     private String uuid;
-    private String updateStatistic;
-
-    public String getUpdateStatistic() {
-        return updateStatistic;
-    }
-
-    public void setUpdateStatistic(String updateStatistic) {
-        this.updateStatistic = updateStatistic;
-    }
-
-    public String getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(String lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-
-    public String getLastLogout() {
-        return lastLogout;
-    }
-
-    public void setLastLogout(String lastLogout) {
-        this.lastLogout = lastLogout;
-    }
-
+    private String multiStepAuth;
     private String secretCode;
 
     public String getAppId() {
@@ -72,6 +48,14 @@ public class AuthModel {
         this.authToken = authToken;
     }
 
+    public String getAdaptiveScore() {
+        return adaptiveScore;
+    }
+
+    public void setAdaptiveScore(String adaptiveScore) {
+        this.adaptiveScore = adaptiveScore;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -94,6 +78,14 @@ public class AuthModel {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     public String getTimezone() {
@@ -144,6 +136,14 @@ public class AuthModel {
         this.email = email;
     }
 
+    public String getLastLogout() {
+        return lastLogout;
+    }
+
+    public void setLastLogout(String lastLogout) {
+        this.lastLogout = lastLogout;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -174,6 +174,14 @@ public class AuthModel {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getMultiStepAuth() {
+        return multiStepAuth;
+    }
+
+    public void setMultiStepAuth(String multiStepAuth) {
+        this.multiStepAuth = multiStepAuth;
     }
 
     public String getSecretCode() {
