@@ -1,11 +1,11 @@
-/Users/nice/IdeaProjects/demo/src/main/java/com/demo/model/Auth.java
-/Users/nice/IdeaProjects/demo/src/main/java/com/demo/util/HTTPSender.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/controller/HandleErrorController.java
+/Users/nice/IdeaProjects/demo/src/main/java/com/demo/model/AuthModel.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/configuration/Configuration.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/controller/HomeController.java
+/Users/nice/IdeaProjects/demo/src/main/java/com/demo/model/LoginModel.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/response/DataResponse.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/DemoApplication.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/transport/HttpClientHelper.java
-/Users/nice/IdeaProjects/demo/src/main/java/com/demo/transport/API.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/util/Encryption.java
+/Users/nice/IdeaProjects/demo/src/main/java/com/demo/model/UserModel.java
 /Users/nice/IdeaProjects/demo/src/main/java/com/demo/response/ResponseCode.java

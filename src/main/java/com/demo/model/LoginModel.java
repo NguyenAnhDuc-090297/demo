@@ -1,9 +1,12 @@
 package com.demo.model;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 
 public class LoginModel {
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
     public String getUsername() {

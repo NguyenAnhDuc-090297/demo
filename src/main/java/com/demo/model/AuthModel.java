@@ -8,18 +8,35 @@ public class AuthModel {
     private String companyName;
     private int sessionTimeout;
     private String groupId;
-    private int lastLogin;
+    private String lastLogin;
     private String timezone;
     private String username;
     private String authMethods;
     private int useSystemPassword;
     private String roleJson;
     private String email;
-    private int lastLogout;
+    private String lastLogout;
     private String userId;
     private int role;
     private String companyId;
     private String uuid;
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public String getLastLogout() {
+        return lastLogout;
+    }
+
+    public void setLastLogout(String lastLogout) {
+        this.lastLogout = lastLogout;
+    }
+
     private String secretCode;
 
     public String getAppId() {
@@ -70,14 +87,6 @@ public class AuthModel {
         this.groupId = groupId;
     }
 
-    public int getLastLogin() {
-        return lastLogin;
-    }
-
-    public void setLastLogin(int lastLogin) {
-        this.lastLogin = lastLogin;
-    }
-
     public String getTimezone() {
         return timezone;
     }
@@ -124,14 +133,6 @@ public class AuthModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getLastLogout() {
-        return lastLogout;
-    }
-
-    public void setLastLogout(int lastLogout) {
-        this.lastLogout = lastLogout;
     }
 
     public String getUserId() {
