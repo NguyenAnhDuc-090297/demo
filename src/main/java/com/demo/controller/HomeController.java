@@ -35,7 +35,7 @@ public class HomeController {
     private ModelAndView home(HttpSession session) {
         ModelAndView mav = null;
         AuthModel authModel = (AuthModel) session.getAttribute("auth");
-        if (authModel.getAuthToken().isEmpty()) {
+        if (authModel == null || authModel.getAuthToken().isEmpty()) {
             mav = new ModelAndView("login");
             mav.addObject("loginModel", new LoginModel());
         } else {
