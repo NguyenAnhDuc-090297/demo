@@ -40,6 +40,7 @@ public class HomeController {
             mav.addObject("loginModel", new LoginModel());
         } else {
             mav = new ModelAndView("home");
+            mav.addObject("authModel", authModel);
         }
         return mav;
     }
@@ -54,6 +55,14 @@ public class HomeController {
         } else {
             mav = new ModelAndView("home");
         }
+        return mav;
+    }
+
+    @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
+    private ModelAndView logout(HttpSession session) {
+        session.removeAttribute("auth");
+        ModelAndView mav = new ModelAndView("login");
+        mav.addObject("loginModel", new LoginModel());
         return mav;
     }
 

@@ -23,6 +23,15 @@ public class OTPAuthModel {
     private String uuid;
     private String multiStepAuth;
     private String secretCode;
+    private String updateStatistic;
+
+    public String getUpdateStatistic() {
+        return updateStatistic;
+    }
+
+    public void setUpdateStatistic(String updateStatistic) {
+        this.updateStatistic = updateStatistic;
+    }
 
     public String getAppId() {
         return appId;

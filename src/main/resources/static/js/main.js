@@ -1,0 +1,86 @@
+$(document).ready(function () {
+    $(".btnProceed").click(function () {
+        if ($(".d-none").length > 0) {
+            $(".authMethod").removeClass("d-none");
+        } else {
+            $(".authMethod").addClass("row d-none authMethod");
+        }
+
+    });
+
+    $("#btnOTPAuth").click(function () {
+        $(".authMethod").removeClass("d-none");
+        $(".verifyOTP").removeClass("d-none");
+        $(".balance").addClass("d-none");
+    });
+
+    $("#btnQRAuth").click(function () {
+        $(".authMethod").removeClass("d-none");
+        $(".verifyQR").removeClass("d-none");
+        $(".balance").addClass("d-none");
+
+        $.ajax({
+            url: "/qr/request",
+            contentType: "application/json;charset=UTF-8;",
+            type: "POST",
+            data: JSON.stringify({
+                "amount": $("#amount").val(),
+                "fromaccount": $("#fromaccount").val(),
+                "toaccount": $("#toaccount").val(),
+                "effdate": $("#effdate").val(),
+            }),
+            success: function (response) {
+                if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
+                    var data = response.data.split("||");
+                    console.log(response.data)
+                    console.log(data)
+
+                    $(".verifyQR img").attr("src",data[2]);
+
+                } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
+                    $(".notifi-body").text(response.error_message);
+                    $(".notification").modal("show");
+                    setTimeout(function () {
+                        document.location.reload(true);
+                    }, 3000)
+                }
+
+                console.log(response)
+            }
+        });
+
+
+    });
+
+    $(".btnOTPAuthSubmit").click(function () {
+        $.ajax({
+            url: "/otp/auth",
+            contentType: "application/json;charset=UTF-8;",
+            type: "POST",
+            data: JSON.stringify({
+                "amount": $("#amount").val(),
+                "fromaccount": $("#fromaccount").val(),
+                "toaccount": $("#toaccount").val(),
+                "effdate": $("#effdate").val(),
+                "otp": $("#otp").val()
+            }),
+            success: function (response) {
+                if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
+                    $(".notifi-body").text(response.error_message);
+                    $(".notification").modal("show");
+                } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
+                    $(".notifi-body").text(response.error_message);
+                    $(".notification").modal("show");
+                }
+                setTimeout(function () {
+                    document.location.reload(true)
+                }, 3000)
+
+            }
+        });
+
+
+    })
+
+
+});
