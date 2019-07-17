@@ -80,7 +80,7 @@
                     <TR>
                         <TD class="caption" width="20%">Effective Date</TD>
                         <TD width="30%">
-                            <input type="date" name="effdate" id="effdate" value=""
+                            <input type="date" name="effdate" id="effdate"
                                    class="mandatory form-control date-picker"
                             ></TD>
                         <TD width="5%"></TD>
@@ -129,7 +129,8 @@
     <div class="row d-none verifyQR">
         <div class="col"></div>
         <div class="col">
-            <img src="" alt="">
+<!--            <img src="" alt="">-->
+            <div id="qrcode"></div>
         </div>
         <div class="col"></div>
     </div>
@@ -161,6 +162,7 @@
 <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/qrcode.min.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

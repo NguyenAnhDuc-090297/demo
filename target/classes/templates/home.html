@@ -11,11 +11,8 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <title>Home!</title>
 </head>
-
-
 <body>
 <div class="container">
-<<<<<<< HEAD
     <div class="row">
         <div class="col-12">
             <div class=login-body width="40%" align=center colspan="3"
@@ -43,25 +40,6 @@
 
         </div>
     </div>
-=======
-    <table cellpadding=0 cellspacing=0 border=0 width="100%">
-        <tr>
-            <td colspan=2>
-                <table cellpadding=0 cellspacing=0 border=0 width="100%">
-                    <tr>
-                        <td class=login-body width="40%" height="50px" align=center colspan="3" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"><b>Enterprise Solution for Global Banking</b>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class=login-body  width="40%" align=left colspan="2"></td>
-                        <td class=login-caption  width="40%" align=right>
-                            <INPUT onclick="logout();" name="btnLogout" type=submit value="Logout"
-                                   class="btn btn-secondary">
-                        </td>
-                    </tr>
-                </table>
-    </table>
->>>>>>> c24998997c4591e7b4943a2e4f01da23e250046f
     <div class="row">
         <div class="col">
         </div>
@@ -74,12 +52,8 @@
         </div>
         <div class="col"></div>
     </div>
-<<<<<<< HEAD
     <div class="container balance"
          style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-bottom: 80px;">
-=======
-    <div class="container" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);margin-bottom: 70px;">
->>>>>>> c24998997c4591e7b4943a2e4f01da23e250046f
         <cen width="70%" class="fieldsettitle">
             <br>
             <form id="formBalance" action="#">
@@ -103,11 +77,10 @@
                                                class="mandatory form-control"></TD>
                     </TR>
 
-<<<<<<< HEAD
                     <TR>
                         <TD class="caption" width="20%">Effective Date</TD>
                         <TD width="30%">
-                            <input type="date" name="effdate" id="effdate" value=""
+                            <input type="date" name="effdate" id="effdate"
                                    class="mandatory form-control date-picker"
                             ></TD>
                         <TD width="5%"></TD>
@@ -117,19 +90,6 @@
                         </TD>
                         <input type="hidden" name="transaction" id="transaction" value="">
                     </TR>
-=======
-                <TR>
-                    <TD class="caption" width="20%">Effective Date</TD>
-                    <TD width="30%"><input type="date" name="effdate" id="effdate" value="<%=todayDate%>"
-                                           class="mandatory form-control" onChange="formatDate(this.value);"
-                                           placeholder="yyyy-mm-dd"></TD>
-                    <TD width="5%"></TD>
-                    <TD class="caption" width="20%"></TD>
-                    <TD width="30%"><input class="form-control" type="hidden" name="recemail" id="recemail" value="">
-                    </TD>
-                    <input type="hidden" name="transaction" id="transaction" value="">
-                </TR>
->>>>>>> c24998997c4591e7b4943a2e4f01da23e250046f
 
                     <TR rowspan="2">
                         <td colspan="5">&nbsp;</td>
@@ -169,7 +129,7 @@
     <div class="row d-none verifyQR">
         <div class="col"></div>
         <div class="col">
-            <img src="" alt="">
+            <div id="qrcode"></div>
         </div>
         <div class="col"></div>
     </div>
@@ -201,6 +161,7 @@
 <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/qrcode.min.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 </body>
 </html>

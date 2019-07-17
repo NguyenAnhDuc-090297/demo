@@ -32,10 +32,17 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
                     var data = response.data.split("||");
-                    console.log(response.data)
-                    console.log(data)
+                    console.log(data[0])
 
-                    $(".verifyQR img").attr("src",data[2]);
+                    // $(".verifyQR img").attr("src",data[2]);
+                    var qrcode = new QRCode(document.getElementById("qrcode"), {
+                        text: data[0],
+                        width: 300,
+                        height: 300,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
 
                 } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
                     $(".notifi-body").text(response.error_message);

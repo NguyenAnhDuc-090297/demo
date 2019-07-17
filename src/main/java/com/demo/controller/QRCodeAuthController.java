@@ -64,7 +64,8 @@ public class QRCodeAuthController {
                 String plainText = request.getPlainText();
                 QRCodeGenerator.generateQRCodeImage(qrCode, 300, 300, QRCodeGenerator.QR_CODE_IMAGE_PATH);
                 String path = "/images/QRCode.png";
-                return new DataResponse(ResponseCode.SUCCESSFUL, "SUCCESSFUL", qrCode + "||" + challenge + "||" + path);
+                byte[] qrCodeImageByteArray = QRCodeGenerator.getQRCodeImageByteArray(qrCode, 300, 300);
+                return new DataResponse(ResponseCode.SUCCESSFUL, "SUCCESSFUL", qrCode + "||" + challenge + "||" + path + "||" + qrCodeImageByteArray);
             } else {
                 return DataResponse.FAILED;
             }
