@@ -32,6 +32,8 @@ public class QRCodeAuthController {
     private String API_QR_CODE;
     @Value("${app.requestQrCode}")
     private String API_REQUEST_QR;
+    @Value("${app.statecheck}")
+    private String API_STATECHECK;
     @Value("${app.integrationkey}")
     private String INTEGRATION_KEY;
     @Value("${app.secretkey}")
@@ -98,6 +100,33 @@ public class QRCodeAuthController {
 
         return "";
     }
+
+
+    @RequestMapping(value = {"/statecheck"}, method = RequestMethod.GET)
+    private DataResponse StateCheck(HttpSession session) {
+        try {
+            AuthModel authModel = (AuthModel) session.getAttribute("auth");
+            String username = authModel.getUsername();
+            String authMethod = "QRCODE";
+            String authToken = authModel.getAuthToken();
+
+            String unixTimeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
+            String hmacData = username + authMethod + INTEGRATION_KEY + unixTimeStamp+authToken;
+            String hmac = Encryption.encrypt(SECRET_KEY, hmacData);
+
+            JsonObject res = QRCodeAuthentication.getInstance().StateCheck(API_STATECHECK, username,
+                    authMethod, authToken,INTEGRATION_KEY, unixTimeStamp, hmac);
+
+            if (res != null) {
+                return new DataResponse(ResponseCode.SUCCESSFUL, ResponseCode.SUCCESSFUL, res.toString());
+            } else {
+                return DataResponse.FAILED;
+            }
+        } catch (Exception ex) {
+            return DataResponse.FAILED;
+        }
+    }
+
 
 }
 

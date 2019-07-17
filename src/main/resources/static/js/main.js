@@ -56,6 +56,16 @@ $(document).ready(function () {
             }
         });
 
+        setInterval(function () {
+            $.ajax({
+                url: "/qr/statecheck",
+                contentType: "application/json;charset=UTF-8;",
+                type: "GET",
+                success:function (response) {
+                    console.log(response)
+                }
+            })
+        },1000);
 
     });
 
@@ -125,7 +135,6 @@ $(document).ready(function () {
                 "crotp": $("#crotp").val()
             }),
             success: function (response) {
-
                 if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
                     $(".notifi-body").text(response.error_message);
                     $(".notification").modal("show");
@@ -143,7 +152,7 @@ $(document).ready(function () {
             }
         })
 
-    })
+    });
 
 
 });

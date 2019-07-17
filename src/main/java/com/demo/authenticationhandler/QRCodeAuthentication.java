@@ -36,4 +36,21 @@ public class QRCodeAuthentication {
         }
         return null;
     }
+
+    public JsonObject StateCheck(String path, String username, String authMethod, String authToken, String integrationKey,
+                                 String unixTimestamp, String hmac) {
+        try {
+            JsonObject data = new JsonObject();
+            data.addProperty("username", username);
+            data.addProperty("authMethod", authMethod);
+            data.addProperty("integrationKey", integrationKey);
+            data.addProperty("unixTimestamp", unixTimestamp);
+            data.addProperty("authToken", authToken);
+            data.addProperty("hmac", hmac);
+            JsonObject response = HttpClientHelper.getInstance().sendTo(path, HttpClientHelper.METHODS.POST, data);
+            return response;
+        } catch (Exception ex) {
+        }
+        return null;
+    }
 }
