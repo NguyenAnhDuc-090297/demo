@@ -39,9 +39,9 @@ $(document).ready(function () {
                         text: data[0],
                         width: 300,
                         height: 300,
-                        colorDark : "#000000",
-                        colorLight : "#ffffff",
-                        correctLevel : QRCode.CorrectLevel.H
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
                     });
 
                 } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
@@ -49,7 +49,7 @@ $(document).ready(function () {
                     $(".notification").modal("show");
                     setTimeout(function () {
                         document.location.reload(true);
-                    }, 3000)
+                    }, 1500)
                 }
 
                 console.log(response)
@@ -81,11 +81,67 @@ $(document).ready(function () {
                 }
                 setTimeout(function () {
                     document.location.reload(true)
-                }, 3000)
+                }, 1500)
 
             }
         });
 
+
+    })
+
+    $("#btnCROTPAuth").click(function () {
+        $(".authMethod").removeClass("d-none");
+        $(".verifyCROTP").removeClass("d-none");
+        $(".balance").addClass("d-none");
+
+        $.ajax({
+            url: "/crotp/request",
+            contentType: "application/json;charset=UTF-8;",
+            type: "POST",
+            success: function (response) {
+                if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
+                    $("#challenge").text(response.data);
+
+                } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
+                    $(".notifi-body").text(response.error_message);
+                    $(".notification").modal("show");
+                    setTimeout(function () {
+                        document.location.reload(true);
+                    }, 1500)
+                }
+
+            }
+        });
+
+    });
+
+    $(".btnCROTPAuthSubmit").click(function () {
+        $.ajax({
+            url: "/crotp/auth",
+            contentType: "application/json;charset=UTF-8;",
+            type: "POST",
+            data: JSON.stringify({
+                "challenge": $("#challenge").text(),
+                "crotp": $("#crotp").val()
+            }),
+            success: function (response) {
+
+                if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
+                    $(".notifi-body").text(response.error_message);
+                    $(".notification").modal("show");
+                    setTimeout(function () {
+                        document.location.reload(true);
+                    }, 1500)
+                } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
+                    $(".notifi-body").text(response.error_message);
+                    $(".notification").modal("show");
+                    setTimeout(function () {
+                        document.location.reload(true);
+                    }, 1500)
+                }
+
+            }
+        })
 
     })
 

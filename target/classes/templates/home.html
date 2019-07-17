@@ -129,9 +129,20 @@
     <div class="row d-none verifyQR">
         <div class="col"></div>
         <div class="col">
+<!--            <img src="" alt="">-->
             <div id="qrcode"></div>
         </div>
         <div class="col"></div>
+    </div>
+
+    <div class="row d-none verifyCROTP">
+        <div class="col">
+            <label for="challenge">Challenge</label>
+            <div id="challenge" style="color: green;" name="challenge"></div>
+            <label for="crotp">CROTP</label>
+            <input id="crotp" name="crotp" type="text" class="form-control" required maxlength="6">
+            <button class="btn btn-secondary btnCROTPAuthSubmit">Submit</button>
+        </div>
     </div>
 
 </div>
