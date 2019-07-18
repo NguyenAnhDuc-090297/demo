@@ -59,6 +59,7 @@ public class QRCodeAuthController {
             RequestQrCodeModel request = RequestQRCode.getInstance().request(API_REQUEST_QR,
                     username, detail,
                     INTEGRATION_KEY, unixTimeStamp, hmacReq);
+            String authToken = request.getAuthToken();
 
             if (request != null) {
                 String challenge = request.getOtpChallenge();
@@ -67,7 +68,7 @@ public class QRCodeAuthController {
                 QRCodeGenerator.generateQRCodeImage(qrCode, 300, 300, QRCodeGenerator.QR_CODE_IMAGE_PATH);
                 String path = "/images/QRCode.png";
                 byte[] qrCodeImageByteArray = QRCodeGenerator.getQRCodeImageByteArray(qrCode, 300, 300);
-                return new DataResponse(ResponseCode.SUCCESSFUL, "SUCCESSFUL", qrCode + "||" + challenge + "||" + path + "||" + qrCodeImageByteArray);
+                return new DataResponse(ResponseCode.SUCCESSFUL, "SUCCESSFUL", qrCode + "||" + challenge + "||" + path + "||" + qrCodeImageByteArray + "||" + authToken);
             } else {
                 return DataResponse.FAILED;
             }
@@ -102,20 +103,21 @@ public class QRCodeAuthController {
     }
 
 
-    @RequestMapping(value = {"/statecheck"}, method = RequestMethod.GET)
-    private DataResponse StateCheck(HttpSession session) {
+    @RequestMapping(value = {"/statecheck"}, method = RequestMethod.POST)
+    private DataResponse StateCheck(@RequestBody String body, HttpSession session) {
         try {
+            JsonObject data = new Gson().fromJson(body, JsonObject.class);
+            String authToken = data.get("authToken").getAsString();
             AuthModel authModel = (AuthModel) session.getAttribute("auth");
             String username = authModel.getUsername();
             String authMethod = "QRCODE";
-            String authToken = authModel.getAuthToken();
 
             String unixTimeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-            String hmacData = username + authMethod + INTEGRATION_KEY + unixTimeStamp+authToken;
+            String hmacData = username + authMethod + INTEGRATION_KEY + unixTimeStamp + authToken;
             String hmac = Encryption.encrypt(SECRET_KEY, hmacData);
 
             JsonObject res = QRCodeAuthentication.getInstance().StateCheck(API_STATECHECK, username,
-                    authMethod, authToken,INTEGRATION_KEY, unixTimeStamp, hmac);
+                    authMethod, authToken, INTEGRATION_KEY, unixTimeStamp, hmac);
 
             if (res != null) {
                 return new DataResponse(ResponseCode.SUCCESSFUL, ResponseCode.SUCCESSFUL, res.toString());

@@ -30,9 +30,11 @@ $(document).ready(function () {
                 "effdate": $("#effdate").val(),
             }),
             success: function (response) {
+                console.log(response.data);
                 if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
                     var data = response.data.split("||");
-                    console.log(data[0])
+                    console.log(data[4]);
+                    $("#qrauthtocken").text(data[4]);
 
                     // $(".verifyQR img").attr("src",data[2]);
                     var qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -60,12 +62,15 @@ $(document).ready(function () {
             $.ajax({
                 url: "/qr/statecheck",
                 contentType: "application/json;charset=UTF-8;",
-                type: "GET",
-                success:function (response) {
+                type: "POST",
+                data: JSON.stringify({
+                    "authToken": $("#qrauthtocken").text()
+                }),
+                success: function (response) {
                     console.log(response)
                 }
             })
-        },1000);
+        }, 1000);
 
     });
 
