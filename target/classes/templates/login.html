@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet"/>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -54,7 +54,8 @@
                         <label for="password" class="sr-only">Password</label>
                         <input type="password" th:field="*{password}" id="password" class="form-control"
                                placeholder="Password">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                        <select class="form-control" id="mySelect2"></select>
+                        <button style="margin-top: 1rem;" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                     </form>
                 </div>
                 <div class="col"></div>
@@ -70,5 +71,58 @@
 <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
+<script type="text/javascript">
+    $('#mySelect2').select2({
+        ajax: {
+            url: '/dash/get/name',
+            dataType: 'json',
+            data: function (params) {
+                console.log(params)
+                if (params.term == undefined || params.term.length === 0) {
+                    return {
+                        name: "",
+                        offset: 0,
+                        limit: 5
+                    }
+                }
+
+                var query = {
+                    name: params.term,
+                    offset: 0,
+                    limit: 5
+                }
+                return query;
+            },
+            processResults: function (data) {
+                var results = [];
+                if (data.error_code === "SUCCESSFUL") {
+                    data.data.filter(function (val) {
+                        console.log(val);
+                        results.push({"id": val.id, "text": val.name});
+                        console.log(results)
+                    })
+                }
+                return {
+                    results: results
+                };
+            }
+        }
+    });
+
+    $("#mySelect2").change(function () {
+        var theID = $("#mySelect2").select2('data')[0].id;
+        var theSelection = $("#mySelect2").select2('data')[0].text;
+        setCookie("selectedOption", theID + "-" + theSelection, 1);
+    });
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+</script>
 </body>
 </html>

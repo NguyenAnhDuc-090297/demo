@@ -33,8 +33,11 @@ $(document).ready(function () {
                 console.log(response.data);
                 if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
                     var data = response.data.split("||");
-                    console.log(data[4]);
-                    $("#qrauthtocken").text(data[4]);
+                    $("#qrauthchallenge").text(data[1]);
+                    $("#qrauthtoken").text(data[4]);
+                    $("#qrauthdetail").text(data[5]);
+                    $("#qrauthcode").text(data[0]);
+                    $("#qrplaintext").text(data[6]);
 
                     // $(".verifyQR img").attr("src",data[2]);
                     var qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -53,8 +56,6 @@ $(document).ready(function () {
                         document.location.reload(true);
                     }, 1500)
                 }
-
-                console.log(response)
             }
         });
 
@@ -64,10 +65,24 @@ $(document).ready(function () {
                 contentType: "application/json;charset=UTF-8;",
                 type: "POST",
                 data: JSON.stringify({
-                    "authToken": $("#qrauthtocken").text()
+                    "authToken": $("#qrauthtoken").text()
                 }),
                 success: function (response) {
                     console.log(response)
+                    if (response.error_code === "SUCCESSFUL" && response.error_message === "SUCCESSFUL") {
+                        $(".notifi-body").text(response.error_message);
+                        $(".notification").modal("show");
+                        setTimeout(function () {
+                            document.location.reload(true);
+                        }, 1500)
+                    } else if (response.error_code === "FAILED" && response.error_message === "FAILED") {
+                        $(".notifi-body").text(response.error_message);
+                        $(".notification").modal("show");
+                        setTimeout(function () {
+                            document.location.reload(true);
+                        }, 1500)
+                    }
+
                 }
             })
         }, 1000);
@@ -158,6 +173,37 @@ $(document).ready(function () {
         })
 
     });
+
+    $(".btnQROTPAuthSubmit").click(function () {
+        var detail = $("#qrauthdetail").text();
+        var token = $("#qrauthtoken").text();
+        var challenge = $("#qrauthchallenge").text();
+        var qrcode = $("#qrauthcode").text();
+        var qrotp = $("#qrotp").val();
+        var qrplaintext = $("#qrplaintext").text();
+        console.log(detail + "\n" + token + "\n" + challenge + "\n" + qrcode + "\n" + qrotp + "\n" + qrplaintext)
+
+        $.ajax({
+            url: "/qr/auth",
+            contentType: "application/json;charset=UTF-8;",
+            type: "POST",
+            data: JSON.stringify({
+                "detail": detail,
+                "token": token,
+                "challenge": challenge,
+                "qrcode": qrcode,
+                "qrotp": qrotp,
+                "qrplaintext": qrplaintext
+            }),
+            success: function (response) {
+                console.log(response)
+
+
+            }
+        })
+
+
+    })
 
 
 });

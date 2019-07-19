@@ -1,6 +1,5 @@
-package com.demo.authenticationhandler;
+package com.demo.handler;
 
-import com.demo.model.OTPAuthModel;
 import com.demo.model.QRCodeModel;
 import com.demo.transport.HttpClientHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +17,7 @@ public class QRCodeAuthentication {
 
     public QRCodeModel Auth(String path, String username, String otp, String challenge, String details,
                             String integrationKey,
-                            String unixTimestamp, String hmac) {
+                            String unixTimestamp, String hmac, String token) {
         try {
             JsonObject data = new JsonObject();
             data.addProperty("username", username);
@@ -28,6 +27,7 @@ public class QRCodeAuthentication {
             data.addProperty("integrationKey", integrationKey);
             data.addProperty("unixTimestamp", unixTimestamp);
             data.addProperty("hmac", hmac);
+            data.addProperty("authToken", token);
             JsonObject response = HttpClientHelper.getInstance().sendTo(path, HttpClientHelper.METHODS.POST, data);
             ObjectMapper mapper = new ObjectMapper();
             QRCodeModel qrCodeModel = mapper.readValue(response.toString(), QRCodeModel.class);

@@ -1,4 +1,4 @@
-package com.demo.authenticationhandler;
+package com.demo.handler;
 
 import com.demo.model.OTPAuthModel;
 import com.demo.transport.HttpClientHelper;

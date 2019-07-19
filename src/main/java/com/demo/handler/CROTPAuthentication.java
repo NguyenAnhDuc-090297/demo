@@ -1,38 +1,38 @@
-package com.demo.authenticationhandler;
+package com.demo.handler;
 
-import com.demo.model.RequestQrCodeModel;
+import com.demo.model.CROTPAuthModel;
 import com.demo.transport.HttpClientHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
-import org.springframework.web.bind.annotation.RequestBody;
 
-public class RequestQRCode {
-    private static RequestQRCode instance;
+public class CROTPAuthentication {
 
-    public static RequestQRCode getInstance() {
+    private static CROTPAuthentication instance;
+
+    public static CROTPAuthentication getInstance() {
         if (instance == null) {
-            instance = new RequestQRCode();
+            instance = new CROTPAuthentication();
         }
         return instance;
     }
 
-    public RequestQrCodeModel request(String path, String username, String details, String integrationKey,
-                                      String unixTimestamp, String hmac) {
+    public CROTPAuthModel Auth(String path, String username, String challenge, String crOtp, String integrationKey,
+                               String unixTimestamp, String hmac) {
         try {
             JsonObject data = new JsonObject();
             data.addProperty("username", username);
-            data.addProperty("details", details);
+            data.addProperty("challenge", challenge);
+            data.addProperty("crOtp", crOtp);
             data.addProperty("integrationKey", integrationKey);
             data.addProperty("unixTimestamp", unixTimestamp);
             data.addProperty("hmac", hmac);
             JsonObject response = HttpClientHelper.getInstance().sendTo(path, HttpClientHelper.METHODS.POST, data);
             ObjectMapper mapper = new ObjectMapper();
-            RequestQrCodeModel requestQrCodeModel = mapper.readValue(response.toString(), RequestQrCodeModel.class);
-            return requestQrCodeModel;
+            CROTPAuthModel crotpAuthModel = mapper.readValue(response.toString(), CROTPAuthModel.class);
+            return crotpAuthModel;
         } catch (Exception ex) {
         }
         return null;
     }
-
 
 }

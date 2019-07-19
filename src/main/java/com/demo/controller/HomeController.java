@@ -1,28 +1,27 @@
 package com.demo.controller;
 
 
+import com.demo.database.config.GET_SEL_OP;
+import com.demo.database.service.CompanyService;
 import com.demo.model.AuthModel;
 import com.demo.model.LoginModel;
 import com.demo.transport.HttpClientHelper;
 import com.demo.util.Encryption;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 @RestController
 @RequestMapping(path = "/")
 public class HomeController {
+
+    @Autowired
+    private CompanyService companyService;
 
     @Value("${app.api.login}")
     private String API_LOGIN;
@@ -67,7 +66,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
-    private ModelAndView login(@ModelAttribute LoginModel loginModel, HttpSession session) {
+    private ModelAndView login(@ModelAttribute LoginModel loginModel, HttpSession session,
+                               @CookieValue(value = "selectedOption") String selectedOption) {
         ModelAndView mav = null;
         try {
             String password = loginModel.getPassword();
@@ -83,14 +83,19 @@ public class HomeController {
                 return mav;
             }
 
+            String ikey = GET_SEL_OP.getInstance().get(selectedOption, GET_SEL_OP.OPTIONS.INTEGRATIONKEY, companyService).length() > 0 ?
+                    GET_SEL_OP.getInstance().get(selectedOption, GET_SEL_OP.OPTIONS.INTEGRATIONKEY, companyService) : INTEGRATION_KEY;
+            String skey = GET_SEL_OP.getInstance().get(selectedOption, GET_SEL_OP.OPTIONS.SECRETKEY, companyService).length() > 0 ?
+                    GET_SEL_OP.getInstance().get(selectedOption, GET_SEL_OP.OPTIONS.SECRETKEY, companyService) : SECRET_KEY;
+
             String unixTimeStamp = String.valueOf(System.currentTimeMillis() / 1000L);
-            String hmacData = username + password + INTEGRATION_KEY + unixTimeStamp;
-            String hmac = Encryption.encrypt(SECRET_KEY, hmacData);
+            String hmacData = username + password + ikey + unixTimeStamp;
+            String hmac = Encryption.encrypt(skey, hmacData);
 
             JsonObject data = new JsonObject();
             data.addProperty("username", username);
             data.addProperty("password", password);
-            data.addProperty("integrationKey", INTEGRATION_KEY);
+            data.addProperty("integrationKey", ikey);
             data.addProperty("unixTimestamp", unixTimeStamp);
             data.addProperty("hmac", hmac);
 

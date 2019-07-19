@@ -1,38 +1,35 @@
-package com.demo.authenticationhandler;
+package com.demo.handler;
 
-import com.demo.model.CROTPAuthModel;
+import com.demo.model.RequestOtpChallengeModel;
 import com.demo.transport.HttpClientHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 
-public class CROTPAuthentication {
+public class RequestOtpChallenge {
 
-    private static CROTPAuthentication instance;
+    private static RequestOtpChallenge instance;
 
-    public static CROTPAuthentication getInstance() {
+    public static RequestOtpChallenge getInstance() {
         if (instance == null) {
-            instance = new CROTPAuthentication();
+            instance = new RequestOtpChallenge();
         }
         return instance;
     }
 
-    public CROTPAuthModel Auth(String path, String username, String challenge, String crOtp, String integrationKey,
-                               String unixTimestamp, String hmac) {
+    public RequestOtpChallengeModel request(String path, String username, String integrationKey,
+                                            String unixTimestamp, String hmac) {
         try {
             JsonObject data = new JsonObject();
             data.addProperty("username", username);
-            data.addProperty("challenge", challenge);
-            data.addProperty("crOtp", crOtp);
             data.addProperty("integrationKey", integrationKey);
             data.addProperty("unixTimestamp", unixTimestamp);
             data.addProperty("hmac", hmac);
             JsonObject response = HttpClientHelper.getInstance().sendTo(path, HttpClientHelper.METHODS.POST, data);
             ObjectMapper mapper = new ObjectMapper();
-            CROTPAuthModel crotpAuthModel = mapper.readValue(response.toString(), CROTPAuthModel.class);
-            return crotpAuthModel;
+            RequestOtpChallengeModel requestOtpChallengeModel = mapper.readValue(response.toString(), RequestOtpChallengeModel.class);
+            return requestOtpChallengeModel;
         } catch (Exception ex) {
         }
         return null;
     }
-
 }

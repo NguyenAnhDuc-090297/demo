@@ -1,35 +1,37 @@
-package com.demo.authenticationhandler;
+package com.demo.handler;
 
-import com.demo.model.RequestOtpChallengeModel;
+import com.demo.model.RequestQrCodeModel;
 import com.demo.transport.HttpClientHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 
-public class RequestOtpChallenge {
+public class RequestQRCode {
+    private static RequestQRCode instance;
 
-    private static RequestOtpChallenge instance;
-
-    public static RequestOtpChallenge getInstance() {
+    public static RequestQRCode getInstance() {
         if (instance == null) {
-            instance = new RequestOtpChallenge();
+            instance = new RequestQRCode();
         }
         return instance;
     }
 
-    public RequestOtpChallengeModel request(String path, String username, String integrationKey,
-                                            String unixTimestamp, String hmac) {
+    public RequestQrCodeModel request(String path, String username, String details, String integrationKey,
+                                      String unixTimestamp, String hmac) {
         try {
             JsonObject data = new JsonObject();
             data.addProperty("username", username);
+            data.addProperty("details", details);
             data.addProperty("integrationKey", integrationKey);
             data.addProperty("unixTimestamp", unixTimestamp);
             data.addProperty("hmac", hmac);
             JsonObject response = HttpClientHelper.getInstance().sendTo(path, HttpClientHelper.METHODS.POST, data);
             ObjectMapper mapper = new ObjectMapper();
-            RequestOtpChallengeModel requestOtpChallengeModel = mapper.readValue(response.toString(), RequestOtpChallengeModel.class);
-            return requestOtpChallengeModel;
+            RequestQrCodeModel requestQrCodeModel = mapper.readValue(response.toString(), RequestQrCodeModel.class);
+            return requestQrCodeModel;
         } catch (Exception ex) {
         }
         return null;
     }
+
+
 }
