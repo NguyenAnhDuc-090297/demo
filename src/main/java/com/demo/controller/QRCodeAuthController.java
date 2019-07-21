@@ -39,7 +39,7 @@ public class QRCodeAuthController {
 
     @RequestMapping(value = {"/request"}, method = RequestMethod.POST)
     private DataResponse Request(@RequestBody String body, HttpSession session,
-                                 @CookieValue(value = "selectedOption") String selectedOption) {
+                                 @CookieValue(value = "selectedOption",required = false) String selectedOption) {
         try {
             JsonObject data = new Gson().fromJson(body, JsonObject.class);
             AuthModel authModel = (AuthModel) session.getAttribute("auth");
@@ -84,7 +84,7 @@ public class QRCodeAuthController {
 
     @RequestMapping(value = {"/auth"}, method = RequestMethod.POST)
     private DataResponse QRAuth(@RequestBody String body, HttpSession session,
-                                @CookieValue(value = "selectedOption") String selectedOption) {
+                                @CookieValue(value = "selectedOption",required = false) String selectedOption) {
         try {
             JsonObject data = new Gson().fromJson(body, JsonObject.class);
             String detail = data.get("detail").getAsString();
@@ -118,7 +118,7 @@ public class QRCodeAuthController {
 
     @RequestMapping(value = {"/statecheck"}, method = RequestMethod.POST)
     private DataResponse StateCheck(@RequestBody String body, HttpSession session,
-                                    @CookieValue(value = "selectedOption") String selectedOption) {
+                                    @CookieValue(value = "selectedOption",required = false) String selectedOption) {
         try {
             JsonObject data = new Gson().fromJson(body, JsonObject.class);
             String authToken = data.get("authToken").getAsString();

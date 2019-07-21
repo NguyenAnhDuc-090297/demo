@@ -34,7 +34,7 @@ public class CROTPAuthController {
     private String SECRET_KEY;
 
     @RequestMapping(value = {"/request"}, method = RequestMethod.POST)
-    private DataResponse Request(HttpSession session,@CookieValue(value = "selectedOption") String selectedOption) {
+    private DataResponse Request(HttpSession session, @CookieValue(value = "selectedOption", required = false) String selectedOption) {
         try {
             AuthModel authModel = (AuthModel) session.getAttribute("auth");
             String username = authModel.getUsername();
@@ -63,7 +63,7 @@ public class CROTPAuthController {
 
     @RequestMapping(value = {"/auth"}, method = RequestMethod.POST)
     private DataResponse CROTPAuth(@RequestBody String body, HttpSession session,
-                                   @CookieValue(value = "selectedOption") String selectedOption) {
+                                   @CookieValue(value = "selectedOption", required = false) String selectedOption) {
         try {
             JsonObject data = new Gson().fromJson(body, JsonObject.class);
             String crotp = data.get("crotp").getAsString();

@@ -30,7 +30,7 @@ public class OTPAuthController {
 
     @RequestMapping(value = {"/auth"}, method = RequestMethod.POST)
     private DataResponse OTPAuth(@RequestBody String body, HttpSession session,
-                                 @CookieValue(value = "selectedOption") String selectedOption) {
+                                 @CookieValue(value = "selectedOption",required = false) String selectedOption) {
         try {
             JsonObject data = new Gson().fromJson(body, JsonObject.class);
             String ammount = data.get("amount").getAsString();

@@ -30,10 +30,10 @@ public class GET_SEL_OP {
         }catch (Exception ex){
             System.out.println(ex);
         }
-        return null;
+        return "";
     }
 
-    public static enum OPTIONS {
+    public enum OPTIONS {
         INTEGRATIONKEY,
         SECRETKEY
     }

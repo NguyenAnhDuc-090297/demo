@@ -33,13 +33,21 @@ public class HomeController {
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     private ModelAndView home(HttpSession session) {
         ModelAndView mav = null;
-        AuthModel authModel = (AuthModel) session.getAttribute("auth");
-        if (authModel == null || authModel.getAuthToken().isEmpty()) {
+        try {
+            AuthModel authModel = (AuthModel) session.getAttribute("auth");
+            if (authModel == null || authModel.getAuthToken().isEmpty()) {
+                mav = new ModelAndView("login");
+                mav.addObject("loginModel", new LoginModel());
+            } else {
+                mav = new ModelAndView("home");
+                mav.addObject("authModel", authModel);
+            }
+        } catch (Exception ex) {
+            session.removeAttribute("auth");
             mav = new ModelAndView("login");
             mav.addObject("loginModel", new LoginModel());
-        } else {
-            mav = new ModelAndView("home");
-            mav.addObject("authModel", authModel);
+            session.removeAttribute("auth");
+            return mav;
         }
         return mav;
     }
@@ -47,12 +55,20 @@ public class HomeController {
     @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
     private ModelAndView login(HttpSession session) {
         ModelAndView mav = null;
-        AuthModel authModel = (AuthModel) session.getAttribute("auth");
-        if (authModel == null || authModel.getAuthToken().isEmpty()) {
+        try {
+            AuthModel authModel = (AuthModel) session.getAttribute("auth");
+            if (authModel == null || authModel.getAuthToken().isEmpty()) {
+                mav = new ModelAndView("login");
+                mav.addObject("loginModel", new LoginModel());
+            } else {
+                mav = new ModelAndView("home");
+            }
+        } catch (Exception ex) {
+            session.removeAttribute("auth");
             mav = new ModelAndView("login");
             mav.addObject("loginModel", new LoginModel());
-        } else {
-            mav = new ModelAndView("home");
+            session.removeAttribute("auth");
+            return mav;
         }
         return mav;
     }
@@ -67,7 +83,7 @@ public class HomeController {
 
     @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
     private ModelAndView login(@ModelAttribute LoginModel loginModel, HttpSession session,
-                               @CookieValue(value = "selectedOption") String selectedOption) {
+                               @CookieValue(value = "selectedOption", required = false) String selectedOption) {
         ModelAndView mav = null;
         try {
             String password = loginModel.getPassword();
@@ -80,6 +96,11 @@ public class HomeController {
             if (password.isEmpty()) {
                 mav = new ModelAndView("login");
                 mav.addObject("errors", "Password not empty !");
+                return mav;
+            }
+            if (selectedOption == null || selectedOption.isEmpty()) {
+                mav = new ModelAndView("login");
+                mav.addObject("errors", "Option not empty !");
                 return mav;
             }
 
@@ -114,7 +135,11 @@ public class HomeController {
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
-            return new ModelAndView("login");
+            session.removeAttribute("auth");
+            mav = new ModelAndView("login");
+            mav.addObject("loginModel", new LoginModel());
+            session.removeAttribute("auth");
+            return mav;
         }
     }
 
